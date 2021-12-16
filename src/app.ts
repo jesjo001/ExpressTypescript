@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import config from "config";
 import log from './logger' //logger doesnt block I/O like console.log does
 import connect from './db/connect';
-
+import  deserializeUser  from './middleware/validation/deserializeUser'
 dotenv.config();
 
 
@@ -17,7 +17,7 @@ const PORT = config.get("port") as number;
 
 
 const app = express();
-
+app.use(deserializeUser);
 
 //middleware
 app.use(express.json());
