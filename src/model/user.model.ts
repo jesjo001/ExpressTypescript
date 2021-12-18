@@ -7,8 +7,6 @@ import {
 
 export interface UserDocument extends mongoose.Document {
     username: string;
-    firstName: string;
-    lastName: string;
     email: string;
     password: string;
     address: string;
@@ -23,14 +21,6 @@ export interface UserDocument extends mongoose.Document {
 
 const userSchema = new mongoose.Schema({
     username: {
-        type: String,
-        required: true
-    },
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
         type: String,
         required: true
     },
