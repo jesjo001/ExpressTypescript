@@ -21,7 +21,7 @@ export const createCounselorHandler = async (req: Request, res: Response) => {
     if (counselor) {
       return res.status(403).json({
         status: 403,
-        message: "Organization already exists in our database",
+        message: "Counselor already exists in our database",
       });
     }
 
@@ -29,7 +29,7 @@ export const createCounselorHandler = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       status: 200,
-      counselor: newCounselor,
+      counselor: omit(newCounselor.toJSON(), "password"),
     });
   } catch (err) {
     //log error with logger which doesn't block i/o like console.log does
@@ -164,7 +164,7 @@ export const updateCounselorHandler = async (req: Request, res: Response) => {
         .json({ message: "Invalid parameter. Counselor not found." });
     }
 
-    const updatedCounselor = await findAndUpdate({ counselorId }, update, {
+    const updatedCounselor = await findAndUpdate({ _id: counselorId }, update, {
       new: true,
     });
 

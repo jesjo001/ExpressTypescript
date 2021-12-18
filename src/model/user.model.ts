@@ -1,92 +1,92 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import config from 'config';
-import {
-    USER_TYPE
-} from "../utils/Constants";
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import config from "config";
+import { USER_TYPE } from "../utils/Constants";
 
 export interface UserDocument extends mongoose.Document {
-    username: string;
-    email: string;
-    password: string;
-    address: string;
-    city: string;
-    country: string;
-    role: string;
-    token: string;
-    createdAt: Date;
-    updatedAt: Date;
-    comparePassword(candidatePasswords: string): Promise<boolean>;
+  username: string;
+  email: string;
+  password: string;
+  address: string;
+  city: string;
+  country: string;
+  role: string;
+  token: string;
+  createdAt: Date;
+  updatedAt: Date;
+  comparePassword(candidatePasswords: string): Promise<boolean>;
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     username: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        unique: true,
-        required: true
+      type: String,
+      unique: true,
+      required: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
+      select: false,
     },
     address: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     city: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     country: {
-        type: String,
-        required: false
+      type: String,
+      required: false,
     },
     dob: {
-        type: Date,
-        required: false
+      type: Date,
+      required: false,
     },
     role: {
-        type: String,
-        required: true,
-        enum: USER_TYPE
+      type: String,
+      required: true,
+      enum: USER_TYPE,
     },
     token: {
-        type: String
+      type: String,
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-userSchema.pre("save", async function(next){
-    let user = this as UserDocument;
+userSchema.pre("save", async function (next) {
+  let user = this as UserDocument;
 
-    //only hash the password if it has been modified or new
-    if(!user.isModified("password")) return next();
+  //only hash the password if it has been modified or new
+  if (!user.isModified("password")) return next();
 
-    //get salt 
-    const salt = await bcrypt.genSalt(config.get('saltWorkFactor'))
+  //get salt
+  const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
 
-    const hash = await bcrypt.hashSync(user.password, salt);
+  const hash = await bcrypt.hashSync(user.password, salt);
 
-    // Replace the password with the hash
-    user.password = hash;
+  // Replace the password with the hash
+  user.password = hash;
 
-    return next()
-
-})
+  return next();
+});
 
 //Used for logging in users
-userSchema.methods.comparePassword = async function (candidatePasswords: string){
-    const user = this as UserDocument;
+userSchema.methods.comparePassword = async function (
+  candidatePasswords: string
+) {
+  const user = this as UserDocument;
 
-    return bcrypt.compare(candidatePasswords, user.password)
-    .catch((e)=> false);
-}
-
+  return bcrypt.compare(candidatePasswords, user.password).catch((e) => false);
+};
 
 const User = mongoose.model<UserDocument>("User", userSchema);
-
 
 export default User;

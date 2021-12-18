@@ -29,7 +29,7 @@ export const createStudentHandler = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       status: 200,
-      student: newStudent,
+      student: omit(newStudent.toJSON(), "password"),
     });
   } catch (err) {
     //log error with logger which doesn't block i/o like console.log does
@@ -138,7 +138,7 @@ export const deleteStudentHandler = async (req: Request, res: Response) => {
   }
 };
 
-export const updateCounselorHandler = async (req: Request, res: Response) => {
+export const updateStudentHandler = async (req: Request, res: Response) => {
   try {
     const userId = get(req, "user._id");
     const studentId = get(req, "params.id");

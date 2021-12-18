@@ -15,12 +15,8 @@ const OrganizationRouter = express.Router();
 
 //counselor user common routes
 // OrganizationRouter.use(requiresAdmin);
-OrganizationRouter.post(
-  "/create",
-  organizationValidationRules(),
-  validate,
-  createOrganizationHandler
-);
+OrganizationRouter.use(requiresAdmin)
+OrganizationRouter.post("/create", organizationValidationRules(), validate, createOrganizationHandler);
 OrganizationRouter.get("/get/:orgId", getOrganizationHandler);
 OrganizationRouter.get("/get", getAllOrganizationHandler);
 OrganizationRouter.delete("/:orgId", deleteOrganizationHandler);
