@@ -1,17 +1,24 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
 import User, { UserDocument} from "../../model/user.model";
+import Student, { StudentDocument} from "../../model/student.model";
+import Organization, { OrganizationDocument} from "../../model/organization.model";
+import Counsellor, { CounselorDocument } from "../../model/counsellor.model";
 import { omit } from "lodash";
 
-const createUser = async (input: DocumentDefinition<UserDocument>) =>{
-
-    try { 
-        return await User.create(input);
-    } catch(error){
-        throw new Error(error as any);
-    }
+export const createUser = async (input: DocumentDefinition<UserDocument>) =>{
+    return await User.create(input);
 }
 
-const validatePassword = async ({ email, password }: { email: UserDocument["email"], password: string }) =>{
+export const createStudent = async (input: DocumentDefinition<StudentDocument>) =>{
+    return await Student.create(input);
+}
+
+
+export const createCounsellor = async (input: DocumentDefinition<StudentDocument>) =>{
+    return await Counsellor.create(input);
+}
+
+export const validatePassword = async ({ email, password }: { email: UserDocument["email"], password: string }) =>{
 
     const user = await User.findOne({ email });
 
@@ -27,12 +34,7 @@ const validatePassword = async ({ email, password }: { email: UserDocument["emai
 
 }
 
-function findUser(query: FilterQuery<UserDocument>) {
+export const findUser = (query: FilterQuery<UserDocument>) => {
   return User.findOne(query).lean();
 }
 
-export { 
-    createUser,
-    validatePassword,
-    findUser
-}
