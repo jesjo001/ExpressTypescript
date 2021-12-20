@@ -144,7 +144,7 @@ export const updateValidationRules = () => {
 export const sessionValidationRules = () => {
   return [
     //validation email
-    body("email").isEmail(),
+    body("username").not().isEmpty(),
     // password must be at least 8 chars long
     body("password").isLength({ min: 8 }),
   ];
