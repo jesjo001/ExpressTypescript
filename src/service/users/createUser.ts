@@ -63,6 +63,6 @@ export const validateWithUsername = async ({
   return omit(user.toJSON(), "password");
 };
 
-export const findUser = (query: FilterQuery<UserDocument>) => {
-  return User.findOne(query).lean();
+export const findUser = async (query: FilterQuery<UserDocument>) => {
+  return await User.findOne(query).lean();
 };
