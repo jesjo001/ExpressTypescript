@@ -1,7 +1,6 @@
 import express from 'express';
 import { 
     createUserHandler,
-    createCounsellorHandler
 } from '../../controller/user.controller';
 import {
 createStudentHandler,

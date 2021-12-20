@@ -7,21 +7,22 @@ import Organization, {
 import Counsellor, { CounselorDocument } from "../../model/counsellor.model";
 import { omit } from "lodash";
 
+//create Admins
 export const createUser = async (input: DocumentDefinition<UserDocument>) => {
   return await User.create(input);
 };
 
-export const createStudent = async (
-  input: DocumentDefinition<StudentDocument>
-) => {
-  return await Student.create(input);
-};
+// export const createStudent = async (
+//   input: DocumentDefinition<StudentDocument>
+// ) => {
+//   return await Student.create(input);
+// };
 
-export const createCounsellor = async (
-  input: DocumentDefinition<StudentDocument>
-) => {
-  return await Counsellor.create(input);
-};
+// export const createCounsellor = async (
+//   input: DocumentDefinition<StudentDocument>
+// ) => {
+//   return await Counsellor.create(input);
+// };
 
 export const validatePassword = async ({
   email,
