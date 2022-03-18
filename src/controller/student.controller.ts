@@ -8,20 +8,27 @@ import {
   findAndUpdate,
   deleteStudent,
 } from "../service/student/student.services";
+import { findUser } from "../service/users/createUser";
 
 export const createStudentHandler = async (req: Request, res: Response) => {
   try {
     const userEmail = get(req, "body.email");
     const userPhone = get(req, "body.phoneNum");
+    const username = get(req, "body.username");
 
-    const student = await findStudent({
-      $or: [{ email: userEmail }, { phoneNum: userPhone }],
+    const student = await findUser({
+      $or: [
+        { email: userEmail },
+        { phoneNum: userPhone },
+        { username: username },
+      ],
     });
 
     if (student) {
       return res.status(403).json({
         status: 403,
-        message: "Student already exists in our database",
+        message:
+          "User with the same email/phone/username already exists in our database",
       });
     }
 
